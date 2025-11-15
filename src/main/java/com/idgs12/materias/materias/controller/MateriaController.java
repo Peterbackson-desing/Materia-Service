@@ -22,5 +22,15 @@ public class MateriaController {
         List<MateriaDTO> materias = materiaService.findAll();
         return ResponseEntity.ok(materias);
     }
-    
+    //Funcionalidad de habilitar --Maria Fernanda Rosas Briones- idgs12
+    @PutMapping("/habilitar/{id}")
+    public ResponseEntity<String> habilitarMateria(@PathVariable int id) {
+        boolean habilitada = materiaService.habilitarMateria(id);
+
+        if (habilitada) {
+            return ResponseEntity.ok("Materia habilitada correctamente");
+        } else {
+            return ResponseEntity.badRequest().body("No se pudo habilitar la materia");
+        }
+    }
 }

@@ -64,7 +64,20 @@ public class MateriaService {
             }
             resultado.add(dto);
         }
-
         return resultado;
     }
+    //Funcionalidad de habilitar materia -Maria Fernanda Rosas Briones
+        @Transactional
+        public boolean habilitarMateria(int id) {
+            MateriaEntity materia = materiaRepository.findById(id).orElse(null);
+
+            if (materia == null) {
+                return false;
+            }
+
+            materia.setActivo(true);
+            materiaRepository.save(materia);
+
+            return true;
+        }
 }
