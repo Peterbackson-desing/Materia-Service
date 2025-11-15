@@ -95,4 +95,38 @@ public boolean deshabilitarMateria(int id) {
     return true;
 }
 
+
+        //Funcionalidad editar-pedritobb
+        @Transactional
+        public MateriaDTO editarMateria(int id, MateriaDTO materiaDTO) {
+
+        MateriaEntity materia = materiaRepository.findById(id).orElse(null);
+
+        if (materia == null) {
+            return null;
+        }
+
+        ProgramaEducativoDTO programa = programaFeignClient.getProgramaById(materiaDTO.getProgramaId());
+        if (programa == null) {
+            throw new RuntimeException("El programa educativo no existe");
+        }
+
+        materia.setNombre(materiaDTO.getNombre());
+
+        materia.setActivo(materiaDTO.isActivo());
+
+        if (!materia.getProgramaMaterias().isEmpty()) {
+            materia.getProgramaMaterias().get(0).setProgramaId(materiaDTO.getProgramaId());
+        }
+
+        MateriaEntity materiaGuardada = materiaRepository.save(materia);
+
+        MateriaDTO respuesta = new MateriaDTO();
+        respuesta.setNombre(materiaGuardada.getNombre());
+        respuesta.setActivo(materiaGuardada.isActivo());
+        respuesta.setProgramaId(materiaDTO.getProgramaId());
+        respuesta.setNombrePrograma(programa.getNombre());
+
+        return respuesta;
+    }
 }
