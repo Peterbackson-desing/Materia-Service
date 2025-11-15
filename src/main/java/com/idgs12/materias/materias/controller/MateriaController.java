@@ -22,6 +22,7 @@ public class MateriaController {
         List<MateriaDTO> materias = materiaService.findAll();
         return ResponseEntity.ok(materias);
     }
+
     //Funcionalidad de habilitar --Maria Fernanda Rosas Briones- idgs12
     @PutMapping("/habilitar/{id}")
     public ResponseEntity<String> habilitarMateria(@PathVariable int id) {
@@ -34,6 +35,17 @@ public class MateriaController {
         }
     }
 
+//Funcionalidad de deshabilitar - CeciliaMendoza Arteaga
+    @PutMapping("/deshabilitar/{id}")
+    public ResponseEntity<String> deshabilitarMateria(@PathVariable int id) {
+        boolean deshabilitada = materiaService.deshabilitarMateria(id);
+
+        if (deshabilitada) {
+            return ResponseEntity.ok("Materia deshabilitada correctamente");
+        } else {
+            return ResponseEntity.badRequest().body("No se pudo deshabilitar la materia");
+        }
+    }
     //funcion de editar- pedrito bb
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editarMateria(@PathVariable int id, @RequestBody MateriaDTO materiaDTO) {

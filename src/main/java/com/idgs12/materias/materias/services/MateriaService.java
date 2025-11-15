@@ -80,6 +80,21 @@ public class MateriaService {
 
             return true;
         }
+    //Funcionalidad de deshabilitar materia -Cecilia Mendoza Arteaga
+@Transactional
+public boolean deshabilitarMateria(int id) {
+    MateriaEntity materia = materiaRepository.findById(id).orElse(null);
+
+    if (materia == null) {
+        return false;
+    }
+
+    materia.setActivo(false); // Cambiamos a false para deshabilitar
+    materiaRepository.save(materia);
+
+    return true;
+}
+
 
         //Funcionalidad editar-pedritobb
         @Transactional
